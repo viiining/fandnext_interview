@@ -14,17 +14,23 @@
         input[type="checkbox"]+span {
           @apply border border-stone-50 bg-stone-50 px-4 py-3 rounded font-normal text-base w-fit flex items-center;
         }
+        input[type="checkbox"]:checked + span {
+          @apply border-blue-700;
+        }
         input[type="checkbox"]+span > i {
           @apply border border-stone-200 bg-white rounded text-white mr-2;
           width: 17.5px;
           height: 17.5px;
+        }
+        input[type="checkbox"]:checked + span > i {
+          @apply text-blue-700 text-center;
         }
         .btn {
           @apply border-0 border-b-2 p-0 w-1/4 items-center justify-center text-sm font-bold shadow text-white rounded;
           height: 44px;
         }
         .btn-enabled {
-          @apply text-white border border-slate-300 bg-slate-500;
+          @apply text-white border border-slate-300 bg-slate-500 hover:bg-slate-700;
         }
         .btn-disabled {
           @apply text-stone-500 border border-stone-200 bg-stone-50 shadow-none;
@@ -38,16 +44,41 @@
         <input type="checkbox" name="confirmed_checkbox" id="confirmed_checkbox" value="1">
         <span>
           <i class="fas fa-check-square"></i>
-          <div class="ml-2">confirm</div>
+          <div class="ml-2 text-sm sm:text-xl">confirm</div>
         </span>
       </label>
+      <span id="error_message" class="hidden text-red-500 m-auto mt-5">check checkbox</span>
     </div>
     <button class="mx-auto flex btn btn-disabled mt-8" id="confirm_btn">create</button>
 
     <script>
-      document.getElementById("confirm_btn").addEventListener("click", function() {
-        alert("welcome to fandnext");
-      })
+      const checkbox = document.getElementById("confirmed_checkbox");
+      const button = document.getElementById("confirm_btn");
+      const errorMessage = document.getElementById("error_message");
+
+      checkbox.addEventListener("change", function() {
+        if (checkbox.checked) {
+          errorMessage.style.display = "none";
+          
+          button.classList.remove("btn-disabled");
+          button.classList.add("btn-enabled");
+
+          button.style.pointerEvents = "auto";
+        } else {
+          errorMessage.style.display = "block";
+          
+          button.classList.remove("btn-enabled");
+          button.classList.add("btn-disabled");
+
+          button.style.pointerEvents = "none";
+        }
+      });
+
+      button.addEventListener("click", function() {
+        if (errorMessage.style.display !== "block") {
+          alert("welcome to fandnext");
+        }
+      });
     </script>
   </body>
 </html>
